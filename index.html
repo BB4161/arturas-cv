@@ -3,11 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Artūras Pščelovskis - Engineering Manager specializing in Data Infrastructure & Innovation with 11+ years experience at Danske Bank">
+    <meta name="keywords" content="Engineering Manager, Data Engineering, Team Leadership, Agile, Data Analytics, AI, Machine Learning">
+    <meta name="author" content="Artūras Pščelovskis">
+    <meta property="og:title" content="Artūras Pščelovskis | Engineering Manager">
+    <meta property="og:description" content="Experienced Engineering Manager with expertise in data infrastructure, team leadership, and AI adoption">
+    <meta property="og:type" content="profile">
+    
+    <!-- Security Headers (Basic) -->
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <!-- Favicon and Web App Manifest -->
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxNiIgZmlsbD0iIzAwQTdBMSIvPjwvc3ZnPg==">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00A7A1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Artūras CV">
+    
     <title>Artūras Pščelovskis | Engineering Manager</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://upload.wikimedia.org">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -16,11 +39,64 @@
             --vinted-light-gray: #F7F7F7;
             --vinted-dark-text: #2c3e50;
             --vinted-medium-text: #6b7280;
+            --bg-primary: #F7F7F7;
+            --bg-secondary: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #6b7280;
+            --border-color: rgba(0, 0, 0, 0.1);
         }
+        
+        [data-theme="dark"] {
+            --vinted-light-gray: #2d3748;
+            --vinted-dark-text: #f3f4f6;
+            --vinted-medium-text: #d1d5db;
+            --bg-primary: #2d3748;
+            --bg-secondary: #4a5568;
+            --text-primary: #f3f4f6;
+            --text-secondary: #d1d5db;
+            --border-color: rgba(255, 255, 255, 0.2);
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--vinted-light-gray);
-            color: var(--vinted-dark-text);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background-color: var(--vinted-green);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            padding: 3px;
+        }
+        
+        .theme-toggle-slider {
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        [data-theme="dark"] .theme-toggle-slider {
+            transform: translateX(30px);
+        }
+        
+        .theme-icon {
+            width: 14px;
+            height: 14px;
+            color: var(--vinted-green);
         }
         .nav-link {
             transition: color 0.3s ease, border-bottom-color 0.3s ease;
@@ -57,10 +133,89 @@
         .modal {
             transition: opacity 0.3s ease-in-out;
         }
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chart-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--text-secondary);
+        }
+        .loading-spinner {
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--vinted-green);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Update background colors for dark mode */
+        .bg-white {
+            background-color: var(--bg-secondary) !important;
+            transition: background-color 0.3s ease;
+        }
+        
+        .text-gray-50 {
+            background-color: var(--bg-primary) !important;
+        }
+        
+        /* Update text colors */
+        .section-title {
+            color: var(--text-primary) !important;
+        }
+        
+        .section-text {
+            color: var(--text-secondary) !important;
+        }
+        
+        /* Footer dark mode */
+        footer {
+            background-color: var(--vinted-dark-text) !important;
+            transition: background-color 0.3s ease;
+        }
+        
+        [data-theme="dark"] footer {
+            background-color: #1a202c !important;
+        }
+        
+        /* Ensure no pseudo-elements add unwanted content */
+        *::before, *::after {
+            content: none !important;
+        }
+        
+        /* Override any potential pseudo-element content */
+        header::before, nav::before, .nav-link::before {
+            content: none !important;
+        }
+        
+        /* Ensure clean header rendering */
+        header {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Clean navigation rendering */
+        nav * {
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body class="antialiased">
 
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="fixed top-0 left-0 w-0 h-1 z-[60] transition-all duration-300" style="background-color: var(--vinted-green);"></div>
+    
     <header class="bg-white sticky top-0 z-50 shadow-sm rounded-b-xl">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-2xl font-bold" style="color: var(--vinted-green);">
@@ -72,8 +227,22 @@
                 <a href="#skills" class="nav-link pb-1">Skills & Expertise</a>
                 <a href="#education" class="nav-link pb-1">Education & Certifications</a>
                 <a href="#languages" class="nav-link pb-1">Languages</a>
+                <div class="theme-toggle" id="theme-toggle">
+                    <div class="theme-toggle-slider">
+                        <svg class="theme-icon" id="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                </div>
             </div>
-            <div class="md:hidden">
+            <div class="md:hidden flex items-center space-x-4">
+                <div class="theme-toggle" id="theme-toggle-mobile">
+                    <div class="theme-toggle-slider">
+                        <svg class="theme-icon" id="theme-icon-mobile" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                </div>
                 <button id="menu-btn" class="focus:outline-none" style="color: var(--vinted-green);">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
@@ -93,14 +262,20 @@
         <section id="overview" class="min-h-[80vh] flex items-center">
             <div class="flex flex-wrap md:flex-nowrap items-center w-full">
                 <div class="w-full md:w-2/3">
-                    <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight" style="color: var(--vinted-dark-text);">Engineering Manager</h1>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight section-title">Engineering Manager</h1>
                     <h2 class="text-2xl md:text-3xl font-light mb-6" style="color: var(--vinted-green);">Data Infrastructure & Innovation</h2>
-                    <p class="max-w-4xl text-lg mb-8" style="color: var(--vinted-medium-text);">
-                        An experienced and passionate Engineering Manager with over a decade of experience in data and analytics. I focus on building and scaling data infrastructure to support business growth and operational excellence. My expertise includes setting technical vision, leading high-performance teams, and cultivating a culture of innovation and AI adoption. I have a proven track record of successful project delivery, managing stakeholder expectations, and empowering teams to achieve their goals.
+                    <p class="max-w-4xl text-lg mb-8 section-text">
+                        An experienced and passionate Engineering Manager with over 10 years of experience in data and analytics. I focus on building and scaling data infrastructure to support business growth and operational excellence. My expertise includes setting technical vision, leading high-performance teams, and cultivating a culture of innovation and AI adoption. I have a proven track record of successful project delivery, managing stakeholder expectations, and empowering teams to achieve their goals.
                     </p>
                     <div class="flex flex-wrap gap-4 text-sm">
                         <button id="contact-me-btn" class="font-semibold py-2 px-4 rounded-lg shadow-md transition-colors" style="background-color: var(--vinted-green); color: white; border: 2px solid var(--vinted-green);">Contact Me</button>
                         <a href="https://www.linkedin.com/in/arturas-p" target="_blank" class="font-semibold py-2 px-4 rounded-lg transition-colors" style="background-color: transparent; color: var(--vinted-green); border: 2px solid var(--vinted-green);">LinkedIn Profile</a>
+                        <button id="download-pdf-btn" class="font-semibold py-2 px-4 rounded-lg transition-colors flex items-center space-x-2" style="background-color: transparent; color: var(--vinted-green); border: 2px solid var(--vinted-green);">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span>Download PDF</span>
+                        </button>
                     </div>
                 </div>
                 <div class="w-full md:w-1/3 mt-8 md:mt-0 flex justify-center">
@@ -115,19 +290,23 @@
                 <p class="text-lg mt-2 max-w-3xl mx-auto" style="color: var(--vinted-medium-text);">This section outlines my professional growth and key accomplishments over 11 years. Click on each role to see the detailed responsibilities and achievements, showcasing a clear progression in leadership and technical expertise.</p>
             </div>
             <div class="relative max-w-4xl mx-auto">
-                <div class="absolute left-1/2 w-0.5 h-full transform -translate-x-1/2" style="background-color: var(--vinted-green);"></div>
+                <!-- Central vertical line -->
+                <div class="absolute left-1/2 top-0 w-0.5 h-full transform -translate-x-1/2 z-0" style="background-color: var(--vinted-green);"></div>
                 
-                <div class="timeline-item mt-8">
+                <div class="timeline-item mt-8 relative">
+                    <!-- Timeline ball positioned absolutely at center -->
+                    <div class="absolute left-1/2 top-0 z-10 w-8 h-8 rounded-full shadow-lg flex items-center justify-center transform -translate-x-1/2" style="background-color: var(--vinted-green);">
+                        <div class="w-4 h-4 bg-white rounded-full"></div>
+                    </div>
                     <div class="flex items-center w-full">
                         <div class="w-1/2"></div>
-                        <div class="relative z-10 w-8 h-8 rounded-full shadow-lg flex items-center justify-center" style="background-color: var(--vinted-green);">
-                            <div class="w-4 h-4 bg-white rounded-full"></div>
-                        </div>
                         <div class="w-1/2 pl-8">
                             <div class="bg-white p-6 rounded-lg shadow-lg cursor-pointer timeline-header">
                                 <p class="text-sm" style="color: var(--vinted-medium-text);">August 2024 – Present</p>
                                 <h3 class="font-bold text-xl" style="color: var(--vinted-dark-text);">Engineering Manager, Data Solutions</h3>
-                                <p style="color: var(--vinted-medium-text);">Danske Bank</p>
+                                <div class="flex items-center mt-2">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Danske_Bank_logo.svg" alt="Danske Bank" class="h-6">
+                                </div>
                                 <div class="timeline-item-content break-words">
                                     <ul class="mt-4 list-disc list-inside space-y-2" style="color: var(--vinted-medium-text);">
                                         <li>Lead the data and analytics engineering function, providing technical vision and strategy to support bank-wide data initiatives.</li>
@@ -142,13 +321,19 @@
                     </div>
                 </div>
 
-                <div class="timeline-item mt-8">
+                <div class="timeline-item mt-8 relative">
+                    <!-- Timeline ball positioned absolutely at center -->
+                    <div class="absolute left-1/2 top-0 z-10 w-8 h-8 rounded-full shadow-lg flex items-center justify-center transform -translate-x-1/2" style="background-color: var(--vinted-green);">
+                        <div class="w-4 h-4 bg-white rounded-full"></div>
+                    </div>
                     <div class="flex items-center w-full">
                         <div class="w-1/2 pr-8 text-right">
                              <div class="bg-white p-6 rounded-lg shadow-lg cursor-pointer timeline-header">
                                 <p class="text-sm" style="color: var(--vinted-medium-text);">November 2021 – August 2024</p>
                                 <h3 class="font-bold text-xl" style="color: var(--vinted-dark-text);">Engineering Manager, Debt Management</h3>
-                                <p style="color: var(--vinted-medium-text);">Danske Bank</p>
+                                <div class="flex items-center mt-2 justify-end">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Danske_Bank_logo.svg" alt="Danske Bank" class="h-6">
+                                </div>
                                 <div class="timeline-item-content text-left break-words">
                                     <ul class="mt-4 list-disc list-inside space-y-2" style="color: var(--vinted-medium-text);">
                                         <li>Guided a diverse international team of data scientists and engineers in developing and executing data models to support strategic objectives.</li>
@@ -159,24 +344,24 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="relative z-10 w-8 h-8 rounded-full shadow-lg flex items-center justify-center" style="background-color: var(--vinted-green);">
-                            <div class="w-4 h-4 bg-white rounded-full"></div>
-                        </div>
                         <div class="w-1/2"></div>
                     </div>
                 </div>
 
-                <div class="timeline-item mt-8">
+                <div class="timeline-item mt-8 relative">
+                    <!-- Timeline ball positioned absolutely at center -->
+                    <div class="absolute left-1/2 top-0 z-10 w-8 h-8 rounded-full shadow-lg flex items-center justify-center transform -translate-x-1/2" style="background-color: var(--vinted-green);">
+                        <div class="w-4 h-4 bg-white rounded-full"></div>
+                    </div>
                     <div class="flex items-center w-full">
                         <div class="w-1/2"></div>
-                        <div class="relative z-10 w-8 h-8 rounded-full shadow-lg flex items-center justify-center" style="background-color: var(--vinted-green);">
-                            <div class="w-4 h-4 bg-white rounded-full"></div>
-                        </div>
                         <div class="w-1/2 pl-8">
                             <div class="bg-white p-6 rounded-lg shadow-lg cursor-pointer timeline-header">
                                 <p class="text-sm" style="color: var(--vinted-medium-text);">September 2017 – November 2021</p>
                                 <h3 class="font-bold text-xl" style="color: var(--vinted-dark-text);">Data Team Manager, Large Corporates & Institutions</h3>
-                                <p style="color: var(--vinted-medium-text);">Danske Bank</p>
+                                <div class="flex items-center mt-2">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Danske_Bank_logo.svg" alt="Danske Bank" class="h-6">
+                                </div>
                                 <div class="timeline-item-content break-words">
                                     <ul class="mt-4 list-disc list-inside space-y-2" style="color: var(--vinted-medium-text);">
                                         <li>Led a comprehensive operations automation project for the financial instruments database, resulting in an 80% increase in efficiency and a 95% reduction in manual processes, which decreased recurring costs by €1.5 million annually.</li>
@@ -190,22 +375,25 @@
                     </div>
                 </div>
 
-                <div class="timeline-item mt-8">
+                <div class="timeline-item mt-8 relative">
+                    <!-- Timeline ball positioned absolutely at center -->
+                    <div class="absolute left-1/2 top-0 z-10 w-8 h-8 rounded-full shadow-lg flex items-center justify-center transform -translate-x-1/2" style="background-color: var(--vinted-green);">
+                        <div class="w-4 h-4 bg-white rounded-full"></div>
+                    </div>
                     <div class="flex items-center w-full">
                         <div class="w-1/2 pr-8 text-right">
                              <div class="bg-white p-6 rounded-lg shadow-lg cursor-pointer timeline-header">
                                 <p class="text-sm" style="color: var(--vinted-medium-text);">August 2014 – September 2017</p>
                                 <h3 class="font-bold text-xl" style="color: var(--vinted-dark-text);">Senior Financial Data Analyst</h3>
-                                <p style="color: var(--vinted-medium-text);">Danske Bank</p>
+                                <div class="flex items-center mt-2 justify-end">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Danske_Bank_logo.svg" alt="Danske Bank" class="h-6">
+                                </div>
                                 <div class="timeline-item-content text-left break-words">
                                     <ul class="mt-4 list-disc list-inside space-y-2" style="color: var(--vinted-medium-text);">
                                         <li>Gained foundational experience in financial data management, including database administration and data mining to support trading and investment strategies.</li>
                                     </ul>
                                 </div>
                             </div>
-                        </div>
-                        <div class="relative z-10 w-8 h-8 rounded-full shadow-lg flex items-center justify-center" style="background-color: var(--vinted-green);">
-                            <div class="w-4 h-4 bg-white rounded-full"></div>
                         </div>
                         <div class="w-1/2"></div>
                     </div>
@@ -274,12 +462,12 @@
                 <p class="text-lg mt-2 max-w-3xl mx-auto" style="color: var(--vinted-medium-text);">My language skills are evaluated using the Common European Framework of Reference (CEFR) levels. I am proficient in multiple languages, enabling effective communication in diverse international settings.</p>
             </div>
             <div class="max-w-2xl mx-auto grid sm:grid-cols-2 gap-8">
-                <div class="bg-gray-50 p-6 rounded-lg shadow-inner text-center">
-                    <h3 class="text-2xl font-semibold" style="color: var(--vinted-dark-text);">Lithuanian</h3>
+                <div class="p-6 rounded-lg shadow-inner text-center" style="background-color: var(--bg-primary);">
+                    <h3 class="text-2xl font-semibold section-title">Lithuanian</h3>
                     <div class="mt-2 inline-block px-4 py-1 rounded-full font-bold text-sm" style="background-color: var(--vinted-green); color: white;">C2 - Native</div>
                 </div>
-                <div class="bg-gray-50 p-6 rounded-lg shadow-inner text-center">
-                    <h3 class="text-2xl font-semibold" style="color: var(--vinted-dark-text);">English</h3>
+                <div class="p-6 rounded-lg shadow-inner text-center" style="background-color: var(--bg-primary);">
+                    <h3 class="text-2xl font-semibold section-title">English</h3>
                     <div class="mt-2 inline-block px-4 py-1 rounded-full font-bold text-sm" style="background-color: var(--vinted-green); color: white;">C2 - Fluent</div>
                 </div>
             </div>
@@ -288,12 +476,12 @@
 
     <footer class="text-white py-8" style="background-color: var(--vinted-dark-text);">
         <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2026 Artūras Pščelovskis.</p>
+            <p style="color: var(--vinted-medium-text);">&copy; 2025 Artūras Pščelovskis</p>
             <div class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
-                <p>Vilnius, Lithuania</p>
-                <span class="hidden sm:inline">&bull;</span>
+                <p style="color: var(--vinted-medium-text);">Vilnius, Lithuania</p>
+                <span class="hidden sm:inline" style="color: var(--vinted-medium-text);">&bull;</span>
                 <a href="mailto:psceartu@gmail.com" class="hover:text-white" style="color: var(--vinted-green);">psceartu@gmail.com</a>
-                <span class="hidden sm:inline">&bull;</span>
+                <span class="hidden sm:inline" style="color: var(--vinted-medium-text);">&bull;</span>
                 <a href="tel:+37062956412" class="hover:text-white" style="color: var(--vinted-green);">+370 629 56412</a>
             </div>
         </div>
@@ -323,6 +511,62 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Theme switching functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+            const themeIcon = document.getElementById('theme-icon');
+            const themeIconMobile = document.getElementById('theme-icon-mobile');
+            
+            // Sun icon for light mode
+            const sunIcon = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>`;
+            
+            // Moon icon for dark mode
+            const moonIcon = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>`;
+            
+            // Check for saved theme preference or default to light mode
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            updateThemeIcon(currentTheme);
+            
+            function updateThemeIcon(theme) {
+                // Show what you'll get when you click (opposite of current theme)
+                const iconPath = theme === 'dark' ? moonIcon : sunIcon;
+                themeIcon.innerHTML = iconPath;
+                themeIconMobile.innerHTML = iconPath;
+            }
+            
+            function toggleTheme() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+                
+                // Recreate charts with updated colors
+                setTimeout(() => {
+                    recreateCharts();
+                }, 100);
+            }
+            
+            let chartInstances = {};
+            
+            function recreateCharts() {
+                // Destroy existing charts
+                Object.values(chartInstances).forEach(chart => {
+                    if (chart) chart.destroy();
+                });
+                
+                // Clear the instances
+                chartInstances = {};
+                
+                // Recreate charts with updated theme colors
+                initializeCharts();
+            }
+            
+            themeToggle.addEventListener('click', toggleTheme);
+            themeToggleMobile.addEventListener('click', toggleTheme);
+
             // Mobile menu toggle
             const menuBtn = document.getElementById('menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -340,140 +584,283 @@
                 });
             });
 
-            // Timeline item content toggle
+            // Timeline item content toggle with animation
             const timelineHeaders = document.querySelectorAll('.timeline-header');
             timelineHeaders.forEach(header => {
                 header.addEventListener('click', () => {
                     const content = header.querySelector('.timeline-item-content');
                     content.classList.toggle('open');
+                    
+                    // Add visual feedback
+                    header.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        header.style.transform = 'scale(1)';
+                    }, 150);
                 });
             });
 
-            // Modal functionality
+            // Modal functionality with better UX
             const contactBtn = document.getElementById('contact-me-btn');
             const modal = document.getElementById('contact-modal');
             const closeModalBtn = document.getElementById('close-modal');
+            const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
             contactBtn.addEventListener('click', () => {
                 modal.classList.remove('invisible', 'opacity-0');
+                // Focus trap
+                modal.querySelector('a').focus();
+            });
+
+            // PDF download functionality
+            downloadPdfBtn.addEventListener('click', () => {
+                // For now, show a message - you can later add actual PDF generation
+                alert('PDF download feature coming soon! For now, please use your browser\'s print function (Ctrl+P) and save as PDF.');
             });
 
             closeModalBtn.addEventListener('click', () => {
                 modal.classList.add('invisible', 'opacity-0');
+                contactBtn.focus(); // Return focus
             });
             
             // Close modal when clicking outside of it
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     modal.classList.add('invisible', 'opacity-0');
+                    contactBtn.focus();
                 }
             });
 
-            // Chart configuration
-            const chartOptions = {
-                maintainAspectRatio: false,
-                scales: {
-                    r: {
-                        angleLines: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        },
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        },
-                        pointLabels: {
-                            font: {
-                                size: 12,
-                                family: 'Inter'
-                            },
-                            color: '#374151'
-                        },
-                        ticks: {
-                            backdropColor: 'rgba(255, 255, 255, 0.75)',
-                            stepSize: 2,
-                            display: false
-                        },
-                        suggestedMin: 0,
-                        suggestedMax: 10
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
+            // Escape key to close modal
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('invisible')) {
+                    modal.classList.add('invisible', 'opacity-0');
+                    contactBtn.focus();
                 }
-            };
-
-            // Initialize charts
-            new Chart(document.getElementById('leadershipChart'), {
-                type: 'radar',
-                data: {
-                    labels: [['Team', 'Leadership'], ['Agile', 'Methodologies'], ['Stakeholder', 'Management'], ['Talent', 'Development'], 'Strategy'],
-                    datasets: [{
-                        label: 'Leadership & Management',
-                        data: [9, 9, 8, 8, 9],
-                        fill: true,
-                        backgroundColor: 'rgba(0, 167, 161, 0.2)',
-                        borderColor: 'rgb(0, 167, 161)',
-                        pointBackgroundColor: 'rgb(0, 167, 161)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgb(0, 167, 161)'
-                    }]
-                },
-                options: chartOptions
             });
 
-            new Chart(document.getElementById('dataChart'), {
-                type: 'radar',
-                data: {
-                    labels: [['Data', 'Strategy'], ['Data', 'Engineering'], 'Databricks', 'AI/LLMs', 'Experimentation', ['Data', 'Governance']],
-                    datasets: [{
-                        label: 'Data & Analytics',
-                        data: [9, 8, 7, 8, 7, 9],
-                        fill: true,
-                        backgroundColor: 'rgba(0, 135, 129, 0.2)',
-                        borderColor: 'rgb(0, 135, 129)',
-                        pointBackgroundColor: 'rgb(0, 135, 129)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgb(0, 135, 129)'
-                    }]
-                },
-                options: chartOptions
+            // Reading progress bar
+            const progressBar = document.getElementById('progress-bar');
+            window.addEventListener('scroll', () => {
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / windowHeight) * 100;
+                progressBar.style.width = scrolled + '%';
             });
 
-            new Chart(document.getElementById('techChart'), {
-                type: 'radar',
-                data: {
-                    labels: [['Cloud', '(AWS/GCP)'], 'Automation', ['Docker', '/K8s'], 'SQL', 'Python', 'Databases', 'CI/CD'],
-                    datasets: [{
-                        label: 'Technical',
-                        data: [8, 9, 7, 9, 8, 9, 8],
-                        fill: true,
-                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                        borderColor: 'rgb(16, 185, 129)',
-                        pointBackgroundColor: 'rgb(16, 185, 129)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgb(16, 185, 129)'
-                    }]
-                },
-                options: chartOptions
-            });
+            // Chart configuration with animations and error handling
+            function getChartOptions() {
+                try {
+                    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                    const textColor = isDark ? '#f3f4f6' : '#374151';
+                    const gridColor = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
+                    const backdropColor = isDark ? 'rgba(77, 77, 77, 0.8)' : 'rgba(255, 255, 255, 0.75)';
+                    
+                    return {
+                        maintainAspectRatio: false,
+                        animation: {
+                            duration: 2000,
+                            easing: 'easeInOutQuart'
+                        },
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    color: gridColor
+                                },
+                                grid: {
+                                    color: gridColor
+                                },
+                                pointLabels: {
+                                    font: {
+                                        size: 12,
+                                        family: 'Inter'
+                                    },
+                                    color: textColor
+                                },
+                                ticks: {
+                                    backdropColor: backdropColor,
+                                    stepSize: 2,
+                                    display: false,
+                                    color: textColor
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 10
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    };
+                } catch (error) {
+                    console.error('Error getting chart options:', error);
+                    // Return basic fallback options
+                    return {
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } }
+                    };
+                }
+            }
 
+            // Initialize charts immediately with error handling
+            function initializeCharts() {
+                try {
+                    if (typeof Chart === 'undefined') {
+                        console.warn('Chart.js not loaded');
+                        return;
+                    }
+                    
+                    const chartOptions = getChartOptions();
+                    
+                    chartInstances.leadership = new Chart(document.getElementById('leadershipChart'), {
+                        type: 'radar',
+                        data: {
+                            labels: [['Team', 'Leadership'], ['Agile', 'Methodologies'], ['Stakeholder', 'Management'], ['Talent', 'Development'], 'Strategy'],
+                            datasets: [{
+                                label: 'Leadership & Management',
+                                data: [0, 0, 0, 0, 0], // Start with 0 values
+                                fill: true,
+                                backgroundColor: 'rgba(0, 167, 161, 0.2)',
+                                borderColor: 'rgb(0, 167, 161)',
+                                pointBackgroundColor: 'rgb(0, 167, 161)',
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: 'rgb(0, 167, 161)'
+                            }]
+                        },
+                        options: chartOptions
+                    });
+
+                    chartInstances.data = new Chart(document.getElementById('dataChart'), {
+                        type: 'radar',
+                        data: {
+                            labels: [['Data', 'Strategy'], ['Data', 'Engineering'], 'Databricks', 'AI/LLMs', 'Experimentation', ['Data', 'Governance']],
+                            datasets: [{
+                                label: 'Data & Analytics',
+                                data: [0, 0, 0, 0, 0, 0], // Start with 0 values
+                                fill: true,
+                                backgroundColor: 'rgba(0, 135, 129, 0.2)',
+                                borderColor: 'rgb(0, 135, 129)',
+                                pointBackgroundColor: 'rgb(0, 135, 129)',
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: 'rgb(0, 135, 129)'
+                            }]
+                        },
+                        options: chartOptions
+                    });
+
+                    chartInstances.tech = new Chart(document.getElementById('techChart'), {
+                        type: 'radar',
+                        data: {
+                            labels: [['Cloud', '(AWS/GCP)'], 'Automation', ['Docker', '/K8s'], 'SQL', 'Python', 'Databases', 'CI/CD'],
+                            datasets: [{
+                                label: 'Technical',
+                                data: [0, 0, 0, 0, 0, 0, 0], // Start with 0 values
+                                fill: true,
+                                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                                borderColor: 'rgb(16, 185, 129)',
+                                pointBackgroundColor: 'rgb(16, 185, 129)',
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: 'rgb(16, 185, 129)'
+                            }]
+                        },
+                        options: chartOptions
+                    });
+                    
+                    // Set up scroll-based animations
+                    setupChartScrollAnimations();
+                } catch (error) {
+                    console.error('Error initializing charts:', error);
+                    // Hide chart containers or show fallback content
+                    document.querySelectorAll('canvas[id$="Chart"]').forEach(canvas => {
+                        canvas.style.display = 'none';
+                    });
+                }
+            }
+            
+            // Function to animate charts when scrolling into view
+            function setupChartScrollAnimations() {
+                const skillsSection = document.getElementById('skills');
+                
+                const chartAnimationObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Animate all charts
+                            animateCharts();
+                        } else {
+                            // Reset charts to 0 when leaving viewport
+                            resetCharts();
+                        }
+                    });
+                }, { 
+                    threshold: 0.3,
+                    rootMargin: '-10% 0px -10% 0px'
+                });
+
+                if (skillsSection) {
+                    chartAnimationObserver.observe(skillsSection);
+                }
+            }
+            
+            function resetCharts() {
+                // Reset all charts to 0 values for next animation
+                if (chartInstances.leadership) {
+                    chartInstances.leadership.data.datasets[0].data = [0, 0, 0, 0, 0];
+                    chartInstances.leadership.update('none'); // No animation for reset
+                }
+                if (chartInstances.data) {
+                    chartInstances.data.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
+                    chartInstances.data.update('none');
+                }
+                if (chartInstances.tech) {
+                    chartInstances.tech.data.datasets[0].data = [0, 0, 0, 0, 0, 0, 0];
+                    chartInstances.tech.update('none');
+                }
+            }
+            
+            function animateCharts() {
+                // Use Chart.js built-in animations with staggered timing
+                setTimeout(() => animateChart(chartInstances.leadership, [9, 8, 9, 10, 9]), 100);
+                setTimeout(() => animateChart(chartInstances.data, [9, 8, 7, 7, 9, 7]), 300);
+                setTimeout(() => animateChart(chartInstances.tech, [7, 9, 6, 8, 6, 7, 7]), 500);
+            }
+            
+            function animateChart(chartInstance, targetData) {
+                if (chartInstance) {
+                    // Set data to target values and let Chart.js handle the smooth animation
+                    chartInstance.data.datasets[0].data = targetData;
+                    chartInstance.update(); // Uses the built-in 2-second smooth animation
+                }
+            }
+
+            // Start chart initialization
+            initializeCharts();
+
+            // Active section highlighting with smooth transitions
             const sections = document.querySelectorAll('section');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
+                        // Remove active class from all nav links
                         document.querySelectorAll('.nav-link').forEach(link => {
                             link.classList.remove('active');
-                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                        });
+                        
+                        // Add active class to corresponding nav link
+                        const targetSection = entry.target.id;
+                        const correspondingLinks = document.querySelectorAll(`a[href="#${targetSection}"]`);
+                        correspondingLinks.forEach(link => {
+                            if (link.classList.contains('nav-link')) {
                                 link.classList.add('active');
                             }
                         });
                     }
                 });
-            }, { rootMargin: '-50% 0px -50% 0px' });
+            }, { 
+                rootMargin: '-20% 0px -20% 0px',
+                threshold: 0.3
+            });
 
             sections.forEach(section => {
                 observer.observe(section);

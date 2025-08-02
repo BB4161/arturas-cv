@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://yoursite.com/sitemap.xml
+
+# Crawl-delay (optional - sets delay between requests)
+Crawl-delay: 1
