@@ -402,7 +402,7 @@
                         },
                         pointLabels: {
                             font: {
-                                size: 12, // Adjusted font size to fit multi-line labels better
+                                size: 12,
                                 family: 'Inter'
                             },
                             color: '#374151'
@@ -427,7 +427,6 @@
             new Chart(document.getElementById('leadershipChart'), {
                 type: 'radar',
                 data: {
-                    // Labels updated to support multiple lines
                     labels: [['Team', 'Leadership'], ['Agile', 'Methodologies'], ['Stakeholder', 'Management'], ['Talent', 'Development'], 'Strategy'],
                     datasets: [{
                         label: 'Leadership & Management',
@@ -447,7 +446,6 @@
             new Chart(document.getElementById('dataChart'), {
                 type: 'radar',
                 data: {
-                    // Labels updated to support multiple lines
                     labels: [['Data', 'Strategy'], ['Data', 'Engineering'], 'Databricks', 'AI/LLMs', 'Experimentation', ['Data', 'Governance']],
                     datasets: [{
                         label: 'Data & Analytics',
@@ -458,4 +456,49 @@
                         pointBackgroundColor: 'rgb(0, 135, 129)',
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
-                        pointHover
+                        pointHoverBorderColor: 'rgb(0, 135, 129)'
+                    }]
+                },
+                options: chartOptions
+            });
+
+            new Chart(document.getElementById('techChart'), {
+                type: 'radar',
+                data: {
+                    labels: [['Cloud', '(AWS/GCP)'], 'Automation', ['Docker', '/K8s'], 'SQL', 'Python', 'Databases', 'CI/CD'],
+                    datasets: [{
+                        label: 'Technical',
+                        data: [8, 9, 7, 9, 8, 9, 8],
+                        fill: true,
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        borderColor: 'rgb(16, 185, 129)',
+                        pointBackgroundColor: 'rgb(16, 185, 129)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgb(16, 185, 129)'
+                    }]
+                },
+                options: chartOptions
+            });
+
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px' });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
