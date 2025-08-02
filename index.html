@@ -12,8 +12,58 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      :root {
+        --vinted-green: #00a7a1;
+        --vinted-green-dark: #008781;
+        --vinted-light-gray: #f7f7f7;
+        --vinted-dark-text: #2c3e50;
+        --vinted-medium-text: #6b7280;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--vinted-light-gray);
+        color: var(--vinted-dark-text);
+      }
+      .nav-link {
+        transition: color 0.3s ease, border-bottom-color 0.3s ease;
+        border-bottom: 2px solid transparent;
+      }
+      .nav-link:hover,
+      .nav-link.active {
+        color: var(--vinted-green);
+        border-bottom-color: var(--vinted-green);
+      }
+      .timeline-item-content {
+        transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+      }
+      .timeline-item-content.open {
+        max-height: 1000px;
+        opacity: 1;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 450px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 350px;
+        max-height: 400px;
+      }
+      @media (min-width: 768px) {
+        .chart-container {
+          height: 400px;
+        }
+      }
+      .modal {
+        transition: opacity 0.3s ease-in-out;
+      }
+    </style>
     <script type="module" crossorigin src="./assets/index-V_51720l.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-D1Gqto5l.css">
+    <link rel="stylesheet" crossorigin href="./assets/index-D1Gqto5l.css" />
   </head>
   <body class="antialiased">
     <header class="bg-white sticky top-0 z-50 shadow-sm rounded-b-xl">
