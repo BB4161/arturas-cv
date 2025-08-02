@@ -837,40 +837,64 @@
             // Start chart initialization
             initializeCharts();
 
-            // Active section highlighting with improved accuracy
+            // Active section highlighting with proper top-of-page and bottom-of-page handling
             const sections = document.querySelectorAll('section');
-            const observer = new IntersectionObserver((entries) => {
-                // Sort entries by intersection ratio to find the most visible section
-                const visibleEntries = entries.filter(entry => entry.isIntersecting);
+            
+            function updateActiveSection() {
+                const scrollPosition = window.scrollY + window.innerHeight * 0.3; // 30% from top
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                let activeSection = null;
                 
-                if (visibleEntries.length > 0) {
-                    // Find the section with the highest intersection ratio
-                    const mostVisible = visibleEntries.reduce((prev, current) => 
-                        current.intersectionRatio > prev.intersectionRatio ? current : prev
-                    );
-                    
+                // Special case: if we're at the very top of the page, always show Overview
+                if (window.scrollY < 100) {
+                    activeSection = 'overview';
+                } 
+                // Special case: if we're near the bottom of the page, show the last section
+                else if (window.scrollY + windowHeight >= documentHeight - 100) {
+                    // Find the last section
+                    const lastSection = sections[sections.length - 1];
+                    activeSection = lastSection.id;
+                } 
+                // Normal case: find which section contains the scroll position
+                else {
+                    sections.forEach(section => {
+                        const rect = section.getBoundingClientRect();
+                        const sectionTop = rect.top + window.scrollY;
+                        const sectionBottom = sectionTop + rect.height;
+                        
+                        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                            activeSection = section.id;
+                        }
+                    });
+                }
+                
+                // Update navigation highlighting
+                if (activeSection) {
                     // Remove active class from all nav links
                     document.querySelectorAll('.nav-link').forEach(link => {
                         link.classList.remove('active');
                     });
                     
                     // Add active class to corresponding nav link
-                    const targetSection = mostVisible.target.id;
-                    const correspondingLinks = document.querySelectorAll(`a[href="#${targetSection}"]`);
+                    const correspondingLinks = document.querySelectorAll(`a[href="#${activeSection}"]`);
                     correspondingLinks.forEach(link => {
                         if (link.classList.contains('nav-link')) {
                             link.classList.add('active');
                         }
                     });
                 }
-            }, { 
-                rootMargin: '-10% 0px -10% 0px',
-                threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+            }
+            
+            // Use scroll event instead of IntersectionObserver for more predictable behavior
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(updateActiveSection, 10); // Debounce for performance
             });
-
-            sections.forEach(section => {
-                observer.observe(section);
-            });
+            
+            // Initialize on page load
+            updateActiveSection();
         });
     </script>
 </body>
