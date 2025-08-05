@@ -1,0 +1,9 @@
+{
+    "name": "arturas/cv-website",
+    "description": "Personal CV Website",
+    "type": "project",
+    "require": {},
+    "extra": {
+        "static-files": true
+    }
+}
