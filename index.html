@@ -285,6 +285,12 @@
             opacity: 0;
         }
         
+        /* Smooth transition when video ends */
+        .profile-video.video-ended {
+            opacity: 0 !important;
+            transition: opacity 0.5s ease-in !important;
+        }
+        
         /* Show light theme video on hover in light mode */
         .profile-photo-container:hover .profile-video.light-theme {
             opacity: 1;
@@ -767,9 +773,20 @@
                     return isDarkTheme ? profileVideoDark : profileVideoLight;
                 };
                 
+                // Add ended event listeners for smooth transition back to photo
+                profileVideoLight.addEventListener('ended', function() {
+                    profileVideoLight.classList.add('video-ended');
+                });
+                
+                profileVideoDark.addEventListener('ended', function() {
+                    profileVideoDark.classList.add('video-ended');
+                });
+                
                 profileContainer.addEventListener('mouseenter', function () {
                     const currentVideo = getCurrentVideo();
                     if (currentVideo) {
+                        // Remove ended class to allow video to show again
+                        currentVideo.classList.remove('video-ended');
                         currentVideo.currentTime = 0; // Reset video to beginning
                         currentVideo.play().catch(e => {
                             console.log('Video autoplay failed:', e);
@@ -783,6 +800,7 @@
                         if (video) {
                             video.pause();
                             video.currentTime = 0; // Reset video to beginning
+                            video.classList.remove('video-ended'); // Remove ended class
                         }
                     });
                 });
