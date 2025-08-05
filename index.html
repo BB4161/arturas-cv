@@ -341,6 +341,16 @@
         .timeline-bubble:hover {
             transform: translateX(-50%) scale(1.2) !important;
         }
+        
+        /* Synchronized animation classes */
+        .timeline-bubble.js-animated {
+            transform: translateX(-50%) scale(1.2) !important;
+        }
+        
+        .timeline-header.js-animated {
+            transform: translateY(-2px) !important;
+            filter: brightness(1.05) !important;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -847,7 +857,7 @@
                 });
             });
 
-            // Synchronized hover effects for timeline elements
+            // Synchronized hover effects for timeline elements using CSS classes
             const timelineItems = document.querySelectorAll('.timeline-item');
             timelineItems.forEach(item => {
                 const header = item.querySelector('.timeline-header');
@@ -856,22 +866,24 @@
                 if (header && bubble) {
                     // When hovering over header, also animate bubble
                     header.addEventListener('mouseenter', () => {
-                        bubble.style.transform = 'translateX(-50%) scale(1.2)';
+                        console.log('Header mouseenter - adding bubble animation class'); // Debug log
+                        bubble.classList.add('js-animated');
                     });
                     
                     header.addEventListener('mouseleave', () => {
-                        bubble.style.transform = '';
+                        console.log('Header mouseleave - removing bubble animation class'); // Debug log
+                        bubble.classList.remove('js-animated');
                     });
                     
                     // When hovering over bubble, also animate header
                     bubble.addEventListener('mouseenter', () => {
-                        header.style.transform = 'translateY(-2px)';
-                        header.style.filter = 'brightness(1.05)';
+                        console.log('Bubble mouseenter - adding header animation class'); // Debug log
+                        header.classList.add('js-animated');
                     });
                     
                     bubble.addEventListener('mouseleave', () => {
-                        header.style.transform = '';
-                        header.style.filter = '';
+                        console.log('Bubble mouseleave - removing header animation class'); // Debug log
+                        header.classList.remove('js-animated');
                     });
                 }
             });
@@ -888,6 +900,11 @@
                     const allTimelineHeaders = document.querySelectorAll('.timeline-header');
                     let hasOpenBoxes = false;
                     
+                    // Get the element that was clicked to maintain its position
+                    const targetElement = e.target;
+                    const targetRect = targetElement.getBoundingClientRect();
+                    const targetOffsetTop = targetRect.top + window.pageYOffset;
+                    
                     allTimelineHeaders.forEach(header => {
                         const content = header.querySelector('.timeline-item-content');
                         if (content && content.classList.contains('open')) {
@@ -897,10 +914,20 @@
                         }
                     });
                     
-                    // Prevent any scroll jumping by stopping event propagation if we closed boxes
+                    // If we closed boxes, keep the clicked element in the same position
                     if (hasOpenBoxes) {
                         e.preventDefault();
                         e.stopPropagation();
+                        
+                        setTimeout(() => {
+                            const newTargetRect = targetElement.getBoundingClientRect();
+                            const newTargetOffsetTop = newTargetRect.top + window.pageYOffset;
+                            const scrollDiff = newTargetOffsetTop - targetOffsetTop;
+                            
+                            if (Math.abs(scrollDiff) > 1) { // Only adjust if there's a significant difference
+                                window.scrollBy(0, scrollDiff);
+                            }
+                        }, 10);
                     }
                 }
             });
