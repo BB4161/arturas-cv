@@ -308,28 +308,38 @@
         
         /* Timeline bubble hover animation - stays centered, only scales */
         .timeline-bubble {
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+            cursor: pointer !important;
             will-change: transform;
-            transform: translateX(-50%);
+            transform: translateX(-50%) !important;
         }
         
         .timeline-bubble:hover {
-            transform: translateX(-50%) scale(1.2);
+            transform: translateX(-50%) scale(1.2) !important;
         }
         
         .timeline-bubble:active {
-            transform: translateX(-50%) scale(1.1);
+            transform: translateX(-50%) scale(1.1) !important;
         }
         
-        /* Cross-hover effects - bubble hover affects box and vice versa */
-        .timeline-item:hover .timeline-header {
+        /* Force hover styles with highest specificity */
+        div.timeline-header:hover {
             transform: translateY(-2px) !important;
             filter: brightness(1.05) !important;
         }
         
-        .timeline-item:hover .timeline-bubble {
-            transform: translateX(-50%) scale(1.2);
+        div.timeline-bubble:hover {
+            transform: translateX(-50%) scale(1.2) !important;
+        }
+        
+        /* Individual element hover effects only */
+        .timeline-header:hover {
+            transform: translateY(-2px) !important;
+            filter: brightness(1.05) !important;
+        }
+        
+        .timeline-bubble:hover {
+            transform: translateX(-50%) scale(1.2) !important;
         }
     </style>
 </head>
@@ -820,9 +830,10 @@
                     }
                     
                     setTimeout(() => {
-                        header.style.transform = 'translateY(-2px)';
+                        // Clear inline styles to allow CSS hover to work again
+                        header.style.transform = '';
                         if (bubble) {
-                            bubble.style.transform = 'translateX(-50%) scale(1)';
+                            bubble.style.transform = '';
                         }
                     }, 150);
                 });
@@ -834,6 +845,35 @@
                         header.click();
                     }
                 });
+            });
+
+            // Synchronized hover effects for timeline elements
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach(item => {
+                const header = item.querySelector('.timeline-header');
+                const bubble = item.querySelector('.timeline-bubble');
+                
+                if (header && bubble) {
+                    // When hovering over header, also animate bubble
+                    header.addEventListener('mouseenter', () => {
+                        bubble.style.transform = 'translateX(-50%) scale(1.2)';
+                    });
+                    
+                    header.addEventListener('mouseleave', () => {
+                        bubble.style.transform = '';
+                    });
+                    
+                    // When hovering over bubble, also animate header
+                    bubble.addEventListener('mouseenter', () => {
+                        header.style.transform = 'translateY(-2px)';
+                        header.style.filter = 'brightness(1.05)';
+                    });
+                    
+                    bubble.addEventListener('mouseleave', () => {
+                        header.style.transform = '';
+                        header.style.filter = '';
+                    });
+                }
             });
 
             // Global click handler to close all timeline boxes when clicking outside
