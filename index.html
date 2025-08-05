@@ -16,7 +16,6 @@
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
     
     <!-- Favicon and Web App Manifest -->
@@ -31,7 +30,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="performance-tracker.js" defer></script>
-    <script src="debug.js" defer></script>
     <script src="chart-manager.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -264,6 +262,43 @@
             transition: opacity 0.3s ease-in-out;
         }
         
+        /* Profile video overlay */
+        .profile-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 10;
+            border-radius: 50%;
+        }
+        
+        /* Theme-aware video switching */
+        .profile-video.light-theme {
+            opacity: 0;
+        }
+        
+        .profile-video.dark-theme {
+            opacity: 0;
+        }
+        
+        /* Show light theme video on hover in light mode */
+        .profile-photo-container:hover .profile-video.light-theme {
+            opacity: 1;
+        }
+        
+        /* Show dark theme video on hover in dark mode */
+        [data-theme="dark"] .profile-photo-container:hover .profile-video.light-theme {
+            opacity: 0;
+        }
+        
+        [data-theme="dark"] .profile-photo-container:hover .profile-video.dark-theme {
+            opacity: 1;
+        }
+        
         .profile-photo.light-theme {
             opacity: 1;
         }
@@ -349,6 +384,19 @@
         .timeline-header.js-animated {
             transform: translateY(-2px) !important;
             filter: brightness(1.05) !important;
+        }
+        
+        /* Fallback styles in case Tailwind doesn't load */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .fallback-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
     </style>
 </head>
@@ -449,6 +497,24 @@
                                  decoding="async"
                                  onerror="this.style.display='none';">
                         </picture>
+                        
+                        <!-- Animated video overlay - Light theme -->
+                        <video class="profile-video light-theme" 
+                               muted 
+                               playsinline 
+                               preload="metadata"
+                               aria-label="Arturas waving animation">
+                            <source src="videos/arturas CV-video.mp4" type="video/mp4">
+                        </video>
+                        
+                        <!-- Animated video overlay - Dark theme -->
+                        <video class="profile-video dark-theme" 
+                               muted 
+                               playsinline 
+                               preload="metadata"
+                               aria-label="Arturas waving animation (Dark Theme)">
+                            <source src="videos/arturas CV-video-DARK.mp4" type="video/mp4">
+                        </video>
                     </div>
                     <div style="display: none;" class="rounded-full shadow-lg w-72 h-72 md:w-96 md:h-96 bg-gray-300 flex items-center justify-center">
                         <span class="text-gray-600 text-lg">Photo not available</span>
@@ -688,6 +754,44 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Profile video hover functionality with theme support
+            const profileContainer = document.querySelector('.profile-photo-container');
+            const profileVideoLight = document.querySelector('.profile-video.light-theme');
+            const profileVideoDark = document.querySelector('.profile-video.dark-theme');
+            
+            if (profileContainer && profileVideoLight && profileVideoDark) {
+                
+                // Function to get current active video based on theme
+                const getCurrentVideo = () => {
+                    const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+                    return isDarkTheme ? profileVideoDark : profileVideoLight;
+                };
+                
+                profileContainer.addEventListener('mouseenter', function () {
+                    const currentVideo = getCurrentVideo();
+                    if (currentVideo) {
+                        currentVideo.currentTime = 0; // Reset video to beginning
+                        currentVideo.play().catch(e => {
+                            console.log('Video autoplay failed:', e);
+                        });
+                    }
+                });
+                
+                profileContainer.addEventListener('mouseleave', function () {
+                    // Pause both videos to ensure clean state
+                    [profileVideoLight, profileVideoDark].forEach(video => {
+                        if (video) {
+                            video.pause();
+                            video.currentTime = 0; // Reset video to beginning
+                        }
+                    });
+                });
+                
+                // Preload both videos on page load for smoother experience
+                profileVideoLight.load();
+                profileVideoDark.load();
+            }
+            
             // Theme switching functionality
             const themeToggle = document.getElementById('theme-toggle');
             const themeToggleMobile = document.getElementById('theme-toggle-mobile');
