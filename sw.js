@@ -6,7 +6,7 @@ const DYNAMIC_CACHE = 'dynamic-v2';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/images/profile-photo.PNG',
+  '/images/profile-photo.jpg',
   '/manifest.json',
   '/skills.md',
   'https://cdn.tailwindcss.com',

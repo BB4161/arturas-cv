@@ -24,6 +24,12 @@ yarn-error.log*
 node_modules/
 bower_components/
 
+# Python virtual environments
+.venv/
+venv/
+env/
+.env/
+
 # Build outputs
 dist/
 build/
