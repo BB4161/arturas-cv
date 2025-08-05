@@ -824,10 +824,73 @@
                 header.addEventListener('click', () => {
                     const content = header.querySelector('.timeline-item-content');
                     const isExpanded = content.classList.contains('open');
-                    content.classList.toggle('open');
                     
-                    // Update ARIA expanded state
-                    header.setAttribute('aria-expanded', !isExpanded);
+                    if (isExpanded) {
+                        // CLOSING: Handle the case where user scrolled while box was expanded
+                        
+                        // Get current viewport info
+                        const viewportHeight = window.innerHeight;
+                        const currentScrollY = window.pageYOffset;
+                        
+                        // Find what content is currently visible in the middle of viewport
+                        const viewportMiddleY = currentScrollY + (viewportHeight / 2);
+                        
+                        // Get all timeline items and find which one is closest to viewport middle
+                        const allTimelineItems = document.querySelectorAll('.timeline-item');
+                        let closestItem = null;
+                        let closestDistance = Infinity;
+                        
+                        allTimelineItems.forEach(item => {
+                            const itemRect = item.getBoundingClientRect();
+                            const itemAbsoluteTop = currentScrollY + itemRect.top;
+                            const itemCenter = itemAbsoluteTop + (itemRect.height / 2);
+                            const distance = Math.abs(itemCenter - viewportMiddleY);
+                            
+                            if (distance < closestDistance) {
+                                closestDistance = distance;
+                                closestItem = item;
+                            }
+                        });
+                        
+                        // Store the relative position of this closest item to viewport middle
+                        let referenceOffset = 0;
+                        if (closestItem) {
+                            const itemRect = closestItem.getBoundingClientRect();
+                            const itemAbsoluteTop = currentScrollY + itemRect.top;
+                            referenceOffset = viewportMiddleY - itemAbsoluteTop;
+                        }
+                        
+                        // Disable transitions for instant change
+                        content.style.transition = 'none';
+                        content.classList.remove('open');
+                        header.setAttribute('aria-expanded', 'false');
+                        
+                        // Wait for DOM to update, then adjust scroll to maintain relative position
+                        requestAnimationFrame(() => {
+                            if (closestItem) {
+                                const newItemRect = closestItem.getBoundingClientRect();
+                                const newItemAbsoluteTop = window.pageYOffset + newItemRect.top;
+                                const targetViewportMiddle = newItemAbsoluteTop + referenceOffset;
+                                const targetScrollY = targetViewportMiddle - (viewportHeight / 2);
+                                
+                                // Ensure scroll position is within valid bounds
+                                const maxScroll = document.documentElement.scrollHeight - viewportHeight;
+                                const finalScrollY = Math.max(0, Math.min(targetScrollY, maxScroll));
+                                
+                                window.scrollTo({
+                                    top: finalScrollY,
+                                    behavior: 'instant'
+                                });
+                            }
+                            
+                            // Re-enable transitions
+                            content.style.transition = '';
+                        });
+                    } else {
+                        // OPENING: Normal behavior
+                        content.classList.add('open');
+                        header.setAttribute('aria-expanded', 'true');
+                    }
                     
                     // Synchronized visual feedback for both box and bubble
                     const timelineItem = header.closest('.timeline-item');
@@ -900,34 +963,95 @@
                     const allTimelineHeaders = document.querySelectorAll('.timeline-header');
                     let hasOpenBoxes = false;
                     
-                    // Get the element that was clicked to maintain its position
-                    const targetElement = e.target;
-                    const targetRect = targetElement.getBoundingClientRect();
-                    const targetOffsetTop = targetRect.top + window.pageYOffset;
-                    
+                    // Find all open contents
+                    const openContents = [];
                     allTimelineHeaders.forEach(header => {
                         const content = header.querySelector('.timeline-item-content');
                         if (content && content.classList.contains('open')) {
-                            content.classList.remove('open');
-                            header.setAttribute('aria-expanded', 'false');
+                            openContents.push({content, header});
                             hasOpenBoxes = true;
                         }
                     });
                     
-                    // If we closed boxes, keep the clicked element in the same position
                     if (hasOpenBoxes) {
                         e.preventDefault();
                         e.stopPropagation();
                         
-                        setTimeout(() => {
-                            const newTargetRect = targetElement.getBoundingClientRect();
-                            const newTargetOffsetTop = newTargetRect.top + window.pageYOffset;
-                            const scrollDiff = newTargetOffsetTop - targetOffsetTop;
-                            
-                            if (Math.abs(scrollDiff) > 1) { // Only adjust if there's a significant difference
-                                window.scrollBy(0, scrollDiff);
+                        // Find a stable reference point - preferably a visible timeline header
+                        let referenceElement = null;
+                        let referenceOffsetFromTop = 0;
+                        
+                        // Try to find a timeline header that's currently visible in viewport
+                        for (const header of allTimelineHeaders) {
+                            const rect = header.getBoundingClientRect();
+                            if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+                                referenceElement = header;
+                                referenceOffsetFromTop = rect.top;
+                                break;
                             }
-                        }, 10);
+                        }
+                        
+                        // If no header is fully visible, use the first one that's partially visible
+                        if (!referenceElement) {
+                            for (const header of allTimelineHeaders) {
+                                const rect = header.getBoundingClientRect();
+                                if (rect.bottom > 0 && rect.top < window.innerHeight) {
+                                    referenceElement = header;
+                                    referenceOffsetFromTop = rect.top;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        // If still no reference, use the last header
+                        if (!referenceElement && allTimelineHeaders.length > 0) {
+                            referenceElement = allTimelineHeaders[allTimelineHeaders.length - 1];
+                            referenceOffsetFromTop = referenceElement.getBoundingClientRect().top;
+                        }
+                        
+                        // Disable all transitions for instant changes
+                        openContents.forEach(({content}) => {
+                            content.style.transition = 'none';
+                        });
+                        
+                        // Close all boxes instantly
+                        openContents.forEach(({content, header}) => {
+                            content.classList.remove('open');
+                            header.setAttribute('aria-expanded', 'false');
+                        });
+                        
+                        // Adjust scroll to maintain reference element position
+                        if (referenceElement) {
+                            requestAnimationFrame(() => {
+                                const newRect = referenceElement.getBoundingClientRect();
+                                const newOffsetFromTop = newRect.top;
+                                const scrollDifference = referenceOffsetFromTop - newOffsetFromTop;
+                                
+                                if (Math.abs(scrollDifference) > 1) {
+                                    const currentScroll = window.pageYOffset;
+                                    const newScroll = currentScroll - scrollDifference;
+                                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                                    const targetScroll = Math.max(0, Math.min(newScroll, maxScroll));
+                                    
+                                    window.scrollTo({
+                                        top: targetScroll,
+                                        behavior: 'instant'
+                                    });
+                                }
+                                
+                                // Re-enable transitions
+                                openContents.forEach(({content}) => {
+                                    content.style.transition = '';
+                                });
+                            });
+                        } else {
+                            // Re-enable transitions even if no reference found
+                            requestAnimationFrame(() => {
+                                openContents.forEach(({content}) => {
+                                    content.style.transition = '';
+                                });
+                            });
+                        }
                     }
                 }
             });
