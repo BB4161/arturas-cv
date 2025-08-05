@@ -836,6 +836,35 @@
                 });
             });
 
+            // Global click handler to close all timeline boxes when clicking outside
+            document.addEventListener('click', (e) => {
+                // Check if the click is on a timeline header, bubble, or inside timeline content
+                const isTimelineHeader = e.target.closest('.timeline-header');
+                const isTimelineBubble = e.target.closest('.timeline-bubble');
+                const isTimelineContent = e.target.closest('.timeline-item-content');
+                
+                // If clicked outside timeline interactive elements, close all open boxes
+                if (!isTimelineHeader && !isTimelineBubble && !isTimelineContent) {
+                    const allTimelineHeaders = document.querySelectorAll('.timeline-header');
+                    let hasOpenBoxes = false;
+                    
+                    allTimelineHeaders.forEach(header => {
+                        const content = header.querySelector('.timeline-item-content');
+                        if (content && content.classList.contains('open')) {
+                            content.classList.remove('open');
+                            header.setAttribute('aria-expanded', 'false');
+                            hasOpenBoxes = true;
+                        }
+                    });
+                    
+                    // Prevent any scroll jumping by stopping event propagation if we closed boxes
+                    if (hasOpenBoxes) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }
+            });
+
             // Timeline bubble functionality - make bubbles trigger box expansion
             const timelineBubbles = document.querySelectorAll('.timeline-bubble');
             timelineBubbles.forEach((bubble, index) => {
