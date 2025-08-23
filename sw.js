@@ -7,11 +7,16 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/images/profile-photo.jpg',
+  '/images/danske-bank-logo.svg',
   '/manifest.json',
   '/skills.md',
+  '/fonts/inter.css',
+  '/fonts/Inter-400.ttf',
+  '/fonts/Inter-500.ttf',
+  '/fonts/Inter-600.ttf',
+  '/fonts/Inter-700.ttf',
   'https://cdn.tailwindcss.com',
-  'https://cdn.jsdelivr.net/npm/chart.js',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
+  'https://cdn.jsdelivr.net/npm/chart.js'
 ];
 
 // Install event - cache static resources
