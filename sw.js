@@ -9,7 +9,7 @@ const urlsToCache = [
   '/images/profile-photo.jpg',
   '/images/danske-bank-logo.svg',
   '/manifest.json',
-  '/skills.md',
+  '/sitemap.xml',
   '/fonts/inter.css',
   '/fonts/Inter-400.ttf',
   '/fonts/Inter-500.ttf',
